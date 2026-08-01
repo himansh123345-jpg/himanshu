@@ -1,4 +1,3 @@
-// backend models and Sequelize setup
 const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DB_NAME || 'hospital', process.env.DB_USER || 'postgres', process.env.DB_PASS || 'postgres', {
@@ -27,6 +26,12 @@ const Appointment = sequelize.define('Appointment', {
   reason: { type: DataTypes.TEXT },
 });
 
+const User = sequelize.define('User', {
+  username: { type: DataTypes.STRING, allowNull: false, unique: true },
+  passwordHash: { type: DataTypes.STRING, allowNull: false },
+  role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'receptionist' },
+});
+
 Doctor.hasMany(Appointment);
 Patient.hasMany(Appointment);
 Appointment.belongsTo(Doctor);
@@ -37,4 +42,5 @@ module.exports = {
   Patient,
   Doctor,
   Appointment,
+  User,
 };

@@ -1,26 +1,13 @@
-# Hospital MVP
+Updated backend to add role-based auth, validation, and seed script.
 
-This repository contains a minimal hospital management MVP (backend API + simple frontend) scaffold.
+- Added User model and authentication against DB users (bcrypt + JWT)
+- Added express-validator checks for key endpoints
+- Added seed.js to create an admin user and sample doctor/patient/appointment
+- docker-compose updated to run seed on startup
 
-Features:
-- Backend: Node.js + Express
-- Database: PostgreSQL (via docker-compose)
-- Simple models: Patient, Doctor, Appointment
-- Simple JWT auth stub (for demo)
-- Frontend: static HTML app served by nginx (simple demo UI)
-- Dockerized: docker-compose to run db + backend + frontend
+Run:
+  docker-compose up --build
 
-Quick start
-1. Copy `.env.example` to `.env` in the backend folder and adjust values if needed.
-2. Run: docker-compose up --build
-3. Backend: http://localhost:4000
-4. Frontend: http://localhost:3000
+Login for demo:
+  POST /auth/login {"username":"admin","password":"admin"}
 
-API endpoints (examples):
-- POST /auth/login {"username":"admin","password":"admin"} -> { token }
-- Patients: GET /patients, POST /patients, GET /patients/:id, PUT /patients/:id, DELETE /patients/:id
-- Doctors: similar to patients under /doctors
-- Appointments: POST /appointments, GET /appointments
-
-Notes
-- This is an MVP scaffold. Enhance validation, error handling, and authentication before production.

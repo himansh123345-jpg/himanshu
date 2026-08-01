@@ -22,8 +22,11 @@ services:
       DB_USER: postgres
       DB_PASS: postgres
       JWT_SECRET: supersecret
+      SEED_ADMIN_USER: admin
+      SEED_ADMIN_PASS: admin
     depends_on:
       - db
+    command: sh -c "npm run seed && node index.js"
     ports:
       - "4000:4000"
 
