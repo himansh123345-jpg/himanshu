@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Hospital MVP</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 16px }
+      .card { border: 1px solid #ddd; padding: 12px; margin-bottom: 8px }
+    </style>
+  </head>
+  <body>
+    <h1>Hospital MVP — Demo UI</h1>
+    <p>This is a minimal demo. The backend must be running at <code>http://localhost:4000</code>.</p>
+    <button id="load">Load patients</button>
+    <div id="patients"></div>
+
+    <script>
+      document.getElementById('load').addEventListener('click', async () => {
+        const res = await fetch('http://localhost:4000/patients');
+        const data = await res.json();
+        const root = document.getElementById('patients');
+        root.innerHTML = '';
+        data.forEach(p => {
+          const d = document.createElement('div'); d.className='card';
+          d.innerHTML = `<b>${p.name}</b><div>DOB: ${p.dob || ''}</div><div>Contact: ${p.contact || ''}</div>`;
+          root.appendChild(d);
+        });
+      });
+    </script>
+  </body>
+</html>

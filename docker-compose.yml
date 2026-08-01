@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hospital
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    restart: on-failure
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: hospital
+      DB_USER: postgres
+      DB_PASS: postgres
+      JWT_SECRET: supersecret
+      SEED_ADMIN_USER: admin
+      SEED_ADMIN_PASS: admin
+    depends_on:
+      - db
+    command: sh -c "npm run seed && node index.js"
+    ports:
+      - "4000:4000"
+
+  frontend:
+    build: ./frontend
+    restart: on-failure
+    ports:
+      - "3000:80"
+
+volumes:
+  db-data:
